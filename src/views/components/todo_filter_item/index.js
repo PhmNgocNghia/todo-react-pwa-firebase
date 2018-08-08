@@ -27,7 +27,6 @@ const TodoFilterItem = ({state, currentState, onClick}) => pug`
         id=state.name
         className="btn btn-link px-2 py-0 my-1 " + (state.name === currentState ? 'active' : '')
         onClick=${()=>{
-          console.log(currentState)
           onClick(state.name)
         }}
       )=state.text

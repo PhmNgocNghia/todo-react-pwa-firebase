@@ -6,11 +6,11 @@ import {
   CSSTransition
 } from 'react-transition-group'
 import styled from 'styled-components'
-import Button from '../../components/button'
+import Button from '../../components/button.js'
 import TodoForm from '../../components/todo_form'
 import TodoSearch from '../../components/todo_search'
-import TodoList from '../../components/todo_list'
-import TodoFilterList from '../../components/todo_filter_list'
+import TodoList from '../../components/todo_list.js'
+import TodoFilterList from '../../components/todo_filter_list.js'
 import Display from '../../components/display'
 import Card from '../../components/transparentCard'
 import filterActions from '../../../store/filter/actions'
@@ -24,6 +24,8 @@ import {
   getVisibleUnsyncTodosFilteredByKeyword,
   isTodosEmpty
 } from '../../../store/todo/selector'
+import propTypes from 'prop-types'
+import { List } from 'immutable';
 
 const EmptyTextWrapper = styled.div`
   font-weight: bold;
@@ -64,7 +66,8 @@ class Todo extends React.Component {
       updateFilterKeywords,
       filterState,
       pendingAddTodoList,
-      isTodosEmpty
+      isTodosEmpty,
+      filterKeywords
      } = this.props
 
     return pug`
@@ -84,6 +87,7 @@ class Todo extends React.Component {
         )#btn-signout
       TodoSearch(
         onUpdateFilterKeywords=updateFilterKeywords
+        filterKeyWords=filterKeywords
       )
       TodoFilterList(
         onUpdateFilterState=updateFilterState
@@ -135,7 +139,8 @@ export default connect(
         displayName
       }
     }, filter: {
-      filterState
+      filterState,
+      filterKeywords
     }} = state
 
     // Memoized selector
@@ -146,7 +151,24 @@ export default connect(
       pendingAddTodoList: getVisibleUnsyncTodosFilteredByKeyword(state),
       isTodosEmpty: isTodosEmpty(state),
       filterState,
+      filterKeywords
     })
   },
   Object.assign({}, authActions, todoActions, filterActions)
 )(Todo)
+
+Todo.propTypes = {
+  filterKeywords: propTypes.string,
+  addTodo: propTypes.func,
+  todos: propTypes.instanceOf(List),
+  displayName: propTypes.string,
+  signOut: propTypes.func,
+  updateFilterState: propTypes.func,
+  updateFilterKeywords: propTypes.func,
+  filterState: propTypes.string,
+  pendingAddTodoList: propTypes.instanceOf(List),
+  isTodosEmpty: propTypes.bool,
+  removeTodo: propTypes.func,
+  updateTodo: propTypes.func,
+  onAddTodo: propTypes.func
+}

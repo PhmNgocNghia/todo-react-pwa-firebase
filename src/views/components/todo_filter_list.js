@@ -1,5 +1,6 @@
 import React from 'react';
-import TodoFilterItem from '../todo_filter_item'
+import TodoFilterItem from './todo_filter_item'
+import propTypes from 'prop-types'
 
 const TodoFilterList  = ({currentState, onUpdateFilterState}) => (
   <div className="d-flex justify-content-end">
@@ -24,5 +25,10 @@ const TodoFilterList  = ({currentState, onUpdateFilterState}) => (
     ))}
   </div>
 )
+
+TodoFilterList.propTypes = {
+  currentState: propTypes.string,
+  onUpdateFilterState: propTypes.func
+}
 
 export default TodoFilterList

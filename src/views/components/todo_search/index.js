@@ -24,10 +24,11 @@ const TextInputGroupWrapper = styled.div`
     }
   }
 `
-const TodoSearch = ({onUpdateFilterKeywords}) => pug`
+const TodoSearch = ({onUpdateFilterKeywords, filterKeyWords}) => pug`
 div
   TextInputGroupWrapper.position-relative
     input(
+      value=filterKeyWords
       id="todo_search_input"
       placeholder="Hi, i'm a search box"
       onChange=${(e)=>{

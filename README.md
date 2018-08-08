@@ -29,7 +29,8 @@
 - npm install: install all needed dependency
 - npm start: hmr develop at localhost:3000
 - npm build: build application
-- npm e2e: run all e2e test
+- npm e2e: run all e2e tests
+- npm test: run unit tests
 
 # Offline capability
 Since firebase JavaScript SDK doesn't support persistence. I have to write queues to store added, deleted, updated todo in offline mode. So when the app is back, i manually synchorinize data in queue to server. I used to redux to cache lastest todo data and queues.

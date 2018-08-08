@@ -3,7 +3,7 @@ import {
   CSSTransition,
   TransitionGroup
 } from 'react-transition-group'
-import TodoItem from '../todo_item'
+import TodoItem from './todo_item'
 import PropTypes from 'prop-types'
 import {
   List

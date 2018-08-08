@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import Button from '../button'
+import Button from '../button.js'
+import propTypes from 'prop-types'
 
 const TextInputGroupWrapper = styled.div`
   & > button {
@@ -73,6 +74,10 @@ div
       )
       `
   }
+}
+
+TodoForm.propTypes = {
+  onAddTodo: propTypes.func
 }
 
 export default TodoForm

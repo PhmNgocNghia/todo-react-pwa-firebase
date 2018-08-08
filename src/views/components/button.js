@@ -1,5 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import propTypes from 'prop-types'
 
 const button = ({text, icon, onClick, id, className}) => pug`
   button(
@@ -14,4 +15,13 @@ const button = ({text, icon, onClick, id, className}) => pug`
     |&nbsp;
     =text
 `
+
+button.propTypes = {
+  text: propTypes.string,
+  icon: propTypes.string,
+  onClick: propTypes.func,
+  id: propTypes.string,
+  className: propTypes.string
+}
+
 export default button

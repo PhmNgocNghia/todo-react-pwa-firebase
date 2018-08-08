@@ -1,7 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components';
-import CheckBox from '../checkbox'
-import Button from '../button'
+import CheckBox from '../checkbox.js'
+import Button from '../button.js'
+import TodoItemName from '../todo_item_name'
 
 const TodoItemWrapper = styled.div`
   border-bottom: 1px solid rgba(255,255,255 ,0.5);
@@ -27,25 +29,6 @@ const TodoItemWrapper = styled.div`
   & label {
     cursor: pointer
   }
-`
-
-const TodoItemName = styled.button`
-  display: block;
-  background: transparent;
-  border: 0;
-  color: white;
-
-  cursor: pointer;
-  &,
-  &:hover {
-    text-decoration: ${props => {
-      return props.completed ? 'line-through' : 'none';
-    }} !important;
-  }
-  &:focus {
-    outline: 0;
-  }
-
 `
 
 class TodoItem extends React.Component {
@@ -138,7 +121,7 @@ class TodoItem extends React.Component {
           }}
           icon="window-close"
           text="Go back"
-        )
+        ).btn-goBack
       else
         CheckBox(
           id=todo.key
@@ -170,6 +153,15 @@ class TodoItem extends React.Component {
 
     `
   }
+}
+
+TodoItem.propTypes = {
+  onUpdateTodo: PropTypes.func,
+  onRemoveTodo: PropTypes.func,
+  todo: PropTypes.shape({
+    name: PropTypes.string,
+    completed: PropTypes.false
+  })
 }
 
 export default TodoItem

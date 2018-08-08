@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Todo Item should match snap shoot when in edit mode 1`] = `
+<styled.div
+  className="pt-3 pb-1 d-flex align-items-center"
+>
+  <input
+    className="todo_item_input form-control pl-0"
+    key="pug:0:0"
+    onChange={[Function]}
+    onKeyUp={[Function]}
+    value=""
+  />
+  <button
+    className="btn-change"
+    icon="edit"
+    key="pug:0:1"
+    onClick={[Function]}
+    text="Change"
+  />
+  <button
+    className="btn-goBack"
+    icon="window-close"
+    key="pug:0:2"
+    onClick={[Function]}
+    text="Go back"
+  />
+</styled.div>
+`;
+
+exports[`Todo Item should match snap shoot when not in edit mode 1`] = `
+<styled.div
+  className="pt-3 pb-1 d-flex align-items-center"
+>
+  <Checkbox
+    checked={false}
+    id="123"
+    key="pug:1:0"
+    onCheck={[Function]}
+  />
+  <styled.button
+    className="todo_name mr-auto"
+    completed={false}
+    key="pug:1:1"
+    onClick={[Function]}
+  >
+    test
+  </styled.button>
+  <button
+    className="btn-update"
+    icon="edit"
+    key="pug:1:2"
+    onClick={[Function]}
+    text="Update"
+  />
+  <button
+    className="btn-delete"
+    icon="trash"
+    key="pug:1:3"
+    onClick={[Function]}
+    text="Delete"
+  />
+</styled.div>
+`;

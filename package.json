@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "prop-types": "^15.5.7",
     "@fortawesome/fontawesome-svg-core": "^1.2.0-14",
     "@fortawesome/free-brands-svg-icons": "^5.1.0-11",
     "@fortawesome/free-solid-svg-icons": "^5.1.0-11",
@@ -98,6 +99,7 @@
       "^react-native$": "react-native-web"
     },
     "setupTestFrameworkScriptFile": "<rootDir>/setupTest.js",
+    "snapshotSerializers": ["enzyme-to-json/serializer"],
     "moduleFileExtensions": [
       "web.js",
       "js",
