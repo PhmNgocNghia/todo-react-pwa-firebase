@@ -1,0 +1,128 @@
+@import './checkbox.sass'
+
+body
+  user-select: none !important
+
+input::selection
+  background: rgba(0, 0, 0, 0.35)
+
+
+input::placeholder
+  color: white !important
+
+body,
+.btn-link,
+.btn-link:hover
+  color: white
+
+.btn-link:hover
+  text-decoration: underline
+
+@keyframes fadeInLeft
+  from
+    transform: scale3d(1, 1, 1)
+    transform: translate3d(-100%, 0, 0)
+    height: 0
+  50%
+      transform: scale3d(1.2, 1.2, 1.2)
+  to
+    transform: none
+    height: 100vh
+
+
+@keyframes fadeOutLeft
+  from
+    transform: scale3d(1.2, 1.2, 1.2)
+    height: 100vh
+  to
+    transform: scale3d(1, 1, 1)
+    transform: translate3d(-100%, 0, 0)
+    height: 0
+
+@keyframes SlideInLeft
+  from
+    transform: scale3d(1, 1, 1)
+    transform: translate3d(-100%, 0, 0)
+    height: 0px
+  50%
+      transform: scale3d(1.2, 1.2, 1.2)
+  to
+    transform: none
+    height: 59px
+
+
+@keyframes SlideOutLeft
+  from
+    transform: scale3d(1.2, 1.2, 1.2)
+    height: 39px
+  to
+    transform: scale3d(0.1, 0.1, 0.1)
+    height: 0px
+    padding-top: 0px
+
+
+.svg-primary
+  stroke: "blue"
+
+@keyframs addTodo
+
+@keyframes removeTodo
+
+@keyframes checkTodo
+
+@keyframes uncheckTodo
+
+.fade-enter
+  opacity: 0.2
+  &.fade-enter-active
+    opacity: 1
+    transition: opacity 300ms ease-in
+
+.fade-exit
+  opacity: 1
+  &.fade-exit-active
+    opacity: 0.2
+    transition: opacity 300ms ease-in
+
+
+.redux-toastr .toastr .close-toastr
+  width: 12%
+  height: 20%
+  color: white
+  opacity: 0.7
+
+.fadeSlide-enter
+  &.fadeSlide-enter-active
+    animation-name: fadeInLeft
+    animation-duration: 400ms
+
+.fadeSlide-exit
+  &.fadeSlide-exit-active
+    animation-name: fadeOutLeft
+    animation-duration: 400ms
+
+.Slide-enter
+  &.Slide-enter-active
+    animation-name: SlideInLeft
+    animation-duration: 300ms
+
+.Slide-exit
+  &.Slide-exit-active
+    animation-name: SlideOutLeft
+    animation-duration: 300ms
+
+.zoom-enter
+  &.zoom-enter-active
+    animation-name: fadeIn
+    animation-duration: 200ms
+
+.zoom-exit
+  &.zoom-exit-active
+    animation-name: fadeOut
+    animation-duration: 200ms
+
+.mh-100vh
+  min-height: 100vh
+
+.w-100vw
+  width: 100vw

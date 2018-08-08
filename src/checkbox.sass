@@ -1,0 +1,73 @@
+$borderWidth: 2px
+
+input[type='checkbox']
+  height: 0
+  width: 0
+
+input[type='checkbox'] + label
+  width: 20px
+  height: 20px
+  background: transparent
+  border: $borderWidth solid white
+  border-radius: $borderWidth
+  margin-bottom: 0px
+  margin-right: 7px
+
+  transition: all 250ms cubic-bezier(.4,.0,.23,1)
+
+input[type='checkbox']:checked + label
+  background: #00b6ff
+  position: relative
+  animation: bounceIn 125ms linear
+
+// Check mark
+input[type='checkbox']:checked + label:before
+  content: ""
+  position: absolute
+  bottom: 7px
+  left: 3px
+  width: 5px
+  height: 11px
+  border-right: $borderWidth solid white
+  border-bottom: $borderWidth solid white
+  transform: rotate(45deg)
+  transform-origin: 0% 100%
+  animation: checkBoxCheck 125ms linear
+
+input[type='checkbox']:checked + label:before
+  content: ""
+  position: absolute
+  bottom: 7px
+  left: 3px
+  width: 5px
+  height: 11px
+  border-right: $borderWidth solid white
+  border-bottom: $borderWidth solid white
+  transform: rotate(45deg)
+  transform-origin: 0% 100%
+  animation: checkBoxCheck 125ms linear
+
+input[type='checkbox']:not(:checked) + label
+  animation: bounceOut 125ms linear
+
+// Animation
+// Check: bounce
+@keyframes bounceIn
+  0%
+    transform: scale(1)
+
+  33%
+    transform: scale(0.8)
+
+  100%
+    transform: scale(1)
+
+@keyframes bounceOut
+  0%
+    transform: scale(1)
+
+  33%
+    transform: scale(0.8)
+
+  100%
+    transform: scale(1)

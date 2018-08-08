@@ -1,0 +1,38 @@
+{
+  "plugins": [
+    "babel",
+    "react",
+    "react-pug",
+    "jest"
+  ],
+
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-pug/all"
+  ],
+
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+        "jsx": true,
+        "experimentalObjectRestSpread": true
+    }
+  },
+
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jest/globals": true
+  },
+
+  "rules": {
+    "no-console": "off",
+    "react/prop-types": "off",
+    "no-case-declarations": "off"
+  },
+
+  "parser": "babel-eslint"
+}
