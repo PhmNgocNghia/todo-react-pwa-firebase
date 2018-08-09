@@ -99,7 +99,9 @@
       "^react-native$": "react-native-web"
     },
     "setupTestFrameworkScriptFile": "<rootDir>/setupTest.js",
-    "snapshotSerializers": ["enzyme-to-json/serializer"],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
     "moduleFileExtensions": [
       "web.js",
       "js",
@@ -123,6 +125,7 @@
     "enzyme-adapter-react-16": "^1.2.0",
     "eslint-plugin-babel": "^5.1.0",
     "eslint-plugin-jest": "^21.18.0",
+    "jest-extended": "^0.8.1",
     "node-sass": "^4.9.2",
     "react-transition-group": "^2.4.0",
     "redux-mock-store": "^1.5.3",

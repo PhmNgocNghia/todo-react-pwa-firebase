@@ -1,6 +1,6 @@
 import {actions as toastrActions} from 'react-redux-toastr'
 
-let camelToUpperUnderScore = (camel) => {
+export function camelToUpperUnderScore (camel) {
   let groupSelector = /[A-Z][^A-Z]+|^[^A-Z]+/g
   let extractedGroups = []
   let extractedGroup
@@ -98,20 +98,14 @@ export let makeAsyncAction = (camelActionName, actionArgs) => {
           }))
 
           // Optional failure payload
-          dispatch(()=>({
-            ...args,
-            type
-          }))
+          dispatch({
+            type,
+            error
+          })
         }
       }
     }
   }
 
   return result
-}
-
-export function camelize(str) {
-  return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
-    return index === 0 ? letter.toLowerCase() : letter.toUpperCase();
-  }).replace(/\s+/g, '');
 }
