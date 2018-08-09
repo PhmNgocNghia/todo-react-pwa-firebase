@@ -72,6 +72,6 @@ describe('Todo Search', function() {
     }
 
     let shallowTodoFilterItem = shallow(<TodoFilterItem {...props} />)
-    expect(shallowTodoFilterItem).toMatchSnapshot()
+    expect(toJson(shallowTodoFilterItem)).toMatchSnapshot()
   })
 })

@@ -9,7 +9,7 @@ const getUnsyncTodos = (state) => state.todo.pendingAddTodoList
 const getTodosLength = (state) => getTodos(state).size
 const getUnsyncTodosLength = (state) => getUnsyncTodos(state).size
 
-export const getVisibleTodos = createSelector(
+export const getVisibleTodosFilterByState = createSelector(
   [ getVisibilityFilter, getTodos ],
   (visibilityFilter, todos) => {
     switch (visibilityFilter) {
@@ -24,13 +24,13 @@ export const getVisibleTodos = createSelector(
 )
 
 export const getVisibleTodosFilteredByKeyword = createSelector(
-  [ getVisibleTodos, getFilterKeywords ],
+  [ getVisibleTodosFilterByState, getFilterKeywords ],
   (visibleTodos, keyword) => visibleTodos.filter(
     todo => todo.name.includes(keyword)
   )
 )
 
-export const getVisibleUnsyncTodos = createSelector(
+export const getVisibleUnsyncTodosFilterByState = createSelector(
   [ getVisibilityFilter, getUnsyncTodos ],
   (visibilityFilter, todos) => {
     switch (visibilityFilter) {
@@ -45,7 +45,7 @@ export const getVisibleUnsyncTodos = createSelector(
 )
 
 export const getVisibleUnsyncTodosFilteredByKeyword = createSelector(
-  [ getVisibleUnsyncTodos, getFilterKeywords ],
+  [ getVisibleUnsyncTodosFilterByState, getFilterKeywords ],
   (visibleTodos, keyword) => visibleTodos.filter(
     todo => todo.name.includes(keyword)
   )
