@@ -56,13 +56,14 @@ describe('helper function', function () {
 
   it('should dispatch toastraction and action creator using failure action creator function created by makeActionCreatorPropery', function () {
     const objCreated = makeAsyncAction('actionName', {
-      failure: ['actionArg']
+      failure: ['argName', 'argName2']
     })
+
     const error = {
       code: 'TEST',
       message: 'test'
     }
-    const objCreatedByFailureFunction = objCreated.actionNameFailure(error)
+    const objCreatedByFailureFunction = objCreated.actionNameFailure(error, 'argVal', 'argVal2')
     const dispatch = jest.fn()
     objCreatedByFailureFunction(dispatch)
     expect(dispatch).toHaveBeenCalledTimes(2)
@@ -80,7 +81,9 @@ describe('helper function', function () {
     // Second function: return correct action creator
     expect(dispatch.mock.calls[1][0]).toEqual({
       type: 'ACTION_NAME_FAILURE',
-      error
+      error,
+      argName: 'argVal',
+      argName2: 'argVal2'
     })
   })
 })

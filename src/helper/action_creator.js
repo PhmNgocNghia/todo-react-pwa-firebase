@@ -62,7 +62,7 @@ export let makeActionCreatorPropery = (camelActionName, ...args) => {
  * success: array
  * failure: array
  */
-export let makeAsyncAction = (camelActionName, actionArgs) => {
+export let makeAsyncAction = (camelActionName, actionArgs = {}) => {
   let result = {}
   let states = ['success', 'failure']
 
@@ -98,10 +98,17 @@ export let makeAsyncAction = (camelActionName, actionArgs) => {
           }))
 
           // Optional failure payload
-          dispatch({
+          let optionalDispatchPayload = {
             type,
             error
-          })
+          }
+
+          // Key is a index
+          for (let key in ArgsOfActionType) {
+            optionalDispatchPayload[ArgsOfActionType[key]] = args[key]
+          }
+
+          dispatch(optionalDispatchPayload)
         }
       }
     }

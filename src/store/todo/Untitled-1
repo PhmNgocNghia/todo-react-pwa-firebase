@@ -42,18 +42,17 @@ let actionCreatedByCreator = {
 let {
   loadTodoFailure,
   loadTodoSuccess,
-
   addTodoOnlineFailure,
   addTodoOnlineSuccess,
   addTodoOfflineSuccess,
   addTodoOfflineFailure,
-
+  removeTodoSuccess,
+  removeTodoFailure,
   removeTodoOfflineSuccess,
   removeTodoOfflineFailure,
-  removeTodoOnlineFailure,
-
-
-  updateTodoOnlineFailure,
+  updateTodoSuccess,
+  updateTodoFailure,
+  updateTodoOfflineSuccess,
   updateTodoOfflineFailure
 } = actionCreatedByCreator
 
@@ -61,6 +60,7 @@ export {
   addTodoOfflineSuccess,
   removeTodoOfflineSuccess,
   removeTodoOfflineFailure,
+  updateTodoOfflineSuccess,
   updateTodoOfflineFailure
 }
 
@@ -133,68 +133,6 @@ export let addTodo = (name, IFirebase = firebaseDb) => (dispatch, getState) => {
   }
 }
 
-export let removeTodo = (key, isSync, IFirebase = firebaseDb) => (dispatch, getState) => {
-    let {
-      todo: {
-        isOnline
-      }, auth: {
-        user: {
-          uid
-        }
-      }
-    } = getState()
-
-
-    if (!isOnline) {
-      // Optismic UI update
-      if (isSync) {
-        dispatch(removeSyncTodo(key))
-      } else {
-        dispatch(removeUnsyncTodo(key))
-      }
-    }
-
-    return IFirebase.ref(`users/${uid}/${key}`).remove()
-      .catch(err=>{
-        if(isOnline) {
-          dispatch(removeTodoOnlineFailure(err))
-        } else {
-          dispatch(removeTodoOfflineFailure(err, key))
-        }
-      })
-}
-
-export let updateTodo = (newVal, isSync, IFirebase = firebaseDb) => (dispatch, getState) => {
-    let {
-      todo: {
-        isOnline
-      }, auth: {
-        user: {
-          uid
-        }
-      }
-    } = getState()
-
-
-    if (!isOnline) {
-      // Optismic UI update
-      if (isSync) {
-        dispatch(updateSyncTodo(newVal))
-      } else {
-        dispatch(updateUnsyncTodo(newVal))
-      }
-    }
-
-    return IFirebase.ref(`users/${uid}/${newVal.key}`).update(newVal)
-      .catch(err=>{
-        if(isOnline) {
-          dispatch(updateTodoOnlineFailure(err))
-        } else {
-          dispatch(updateTodoOfflineFailure(err, newVal.key))
-        }
-      })
-}
-
 let removeSyncTodo = makeActionCreatorFunction('REMOVE_SYNC_TODO', 'key')
 let removeUnsyncTodo = makeActionCreatorFunction('REMOVE_UNSYNC_TODO', 'key')
 let updateSyncTodo = makeActionCreatorFunction('UPDATE_SYNC_TODO', 'newVal')
@@ -205,7 +143,41 @@ export default {
   ...makeActionCreatorPropery('updateTodo', 'key', 'newVal'),
   ...makeActionCreatorPropery('removeTodo', 'key'),
   addTodo,
-  updateTodo,
-  removeTodo,
+  removeTodo: (key, isSync, IFirebase = firebaseDb) => (dispatch, getState) => {
+    // Optismic UI update
+    if (isSync) {
+      dispatch(removeSyncTodo(key))
+    } else {
+      dispatch(removeUnsyncTodo(key))
+    }
+
+    // Remove from firebase for both sync and unsync
+    // Sync: it's will be remove properly
+    // Unsync: it's will be add and then remove thanks to firebase queue
+    // Get uid => firebase ref => remove
+    let uid = stateToUid(getState())
+    IFirebase.ref(`users/${uid}/${key}`).remove()
+      .then((result)=>dispatch(removeTodoSuccess(result)))
+      .catch(err=>dispatch(removeTodoFailure(err)))
+  },
+
+  updateTodo: (newVal, isSync, IFirebase = firebaseDb) => (dispatch, getState) => {
+      // Optismic UI update
+      if (isSync) {
+        dispatch(updateSyncTodo(newVal))
+      } else {
+        dispatch(updateUnsyncTodo(newVal))
+      }
+
+      // Remove from firebase for both sync and unsync
+      // Sync: it's will be remove properly
+      // Unsync: it's will be add and then remove thanks to firebase queue
+      // Get uid => firebase ref => remove
+      let uid = stateToUid(getState())
+
+      return IFirebase.ref(`users/${uid}/${newVal.key}`).update(newVal)
+        .then((result)=>dispatch(updateTodoSuccess(result)))
+        .catch(err=>dispatch(updateTodoFailure(err)))
+  },
   ...actionCreatedByCreator
 }

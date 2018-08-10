@@ -1,7 +1,7 @@
-import firebase from 'firebase/app';
+import firebase from 'firebase';
 
-import 'firebase/auth';
-import 'firebase/database';
+import 'firebase/auth/dist/index.cjs';
+import 'firebase/database/dist/index.cjs';
 
 import { firebaseConfig } from './config';
 

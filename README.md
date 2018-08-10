@@ -1,12 +1,15 @@
 # Features
+- Awesome animations
 - Offline capability (must visit page at least 1 time to work)
 - Realtime
 - CRUD todo (if offline action will be sync when the app go back)
 - Progressive Web App
 - Responsive design
+- Native mobile app
 
 # Technologies
 - React.js
+- React Native (expo environment)
 - React router
 - Redux
   - Redux thunk
@@ -18,19 +21,23 @@
 - Styled-components
 - Pug
 
-# E2E Testing tool
+# Testing tool
 - Mocha
 - Pupeteer
+- Jest
+- Enzyme
 
 # Setup
 - edit config.js in `src/firebase`
 
-# Commands
+# PWA - Commands
 - npm install: install all needed dependency
 - npm start: hmr develop at localhost:3000
 - npm build: build application
 - npm e2e: run all e2e tests
 - npm test: run unit tests
 
-# Offline capability
-Since firebase JavaScript SDK doesn't support persistence. I have to write queues to store added, deleted, updated todo in offline mode. So when the app is back, i manually synchorinize data in queue to server. I used to redux to cache lastest todo data and queues.
+# Mobile app - commands
+cd src/mobile then:
+- npm install: install all need dependency
+- react-native run-android: run application

@@ -34,5 +34,8 @@
     "no-unused-vars": "off"
   },
 
-  "parser": "babel-eslint"
+  "parser": "babel-eslint",
+  "globals": {
+    "mockStore": true
+  }
 }

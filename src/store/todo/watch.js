@@ -6,7 +6,7 @@ import {
   addTodoOfflineSuccess,
   removeTodoOfflineSuccess,
   updateTodoOfflineSuccess,
-} from '../todo/actions'
+} from './actions'
 
 
 import {
