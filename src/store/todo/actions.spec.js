@@ -51,7 +51,10 @@ describe('Add todo', function () {
     const mockFirebase = new MockFirebase(false)
     return offlineStore.dispatch(addTodo(mockData.name, mockFirebase)).then(() => {
       const actions = offlineStore.getActions()
-      expect(actions[0].addedTodo).toEqual(mockData.TodoReturn)
+      expect(actions[0]).toEqual({
+        type: 'ADD_TODO_OFFLINE',
+        addedTodo: mockData.TodoReturn
+      })
     })
   })
 
@@ -71,7 +74,7 @@ describe('Add todo', function () {
   })
 
 
-  it('should dispatch toast error andd addTodoOfflineFailure when add todo offline failure', function () {
+  it('should dispatch toast error andd ADD_TODO_OFFLINE_FAILURE when add todo offline failure', function () {
     const mockFirebase = new MockFirebase(false)
     return offlineStore.dispatch(addTodo(mockData.name, mockFirebase)).then(() => {
       const actions = offlineStore.getActions()
@@ -86,8 +89,8 @@ describe('Add todo', function () {
   })
 })
 
-describe('edit todo', () => {
-  it('should not dispatch editSync when edit sync todo in online mode and success', function () {
+describe('update todo', () => {
+  it('should dispatch nothing when edit sync todo in online mode and success', function () {
     const mockFirebase = new MockFirebase(true)
     return onlineStore.dispatch(updateTodo(mockData.editTodo, true, mockFirebase)).then(() => {
       const actions = onlineStore.getActions()
@@ -95,7 +98,7 @@ describe('edit todo', () => {
     })
   })
 
-  it('should not dispatch editSync and throw toastr error when edit sync todo in online mode and failure', function () {
+  it('should dispatch UPDATE_TODO_ONLINE_FAILURE and throw toastr error when edit sync todo in online mode and failure', function () {
     const mockFirebase = new MockFirebase(false)
     return onlineStore.dispatch(updateTodo(mockData.editTodo, false, mockFirebase)).then(() => {
       const actions = onlineStore.getActions()
@@ -109,7 +112,22 @@ describe('edit todo', () => {
     })
   })
 
-  it('should dispatch editSync when edit sync todo in offline mode', function () {
+  it('should dispatch UPDATE_TODO_OFFLINE_FAILURE and throw toastr error when edit sync todo in online mode and failure', function () {
+    const mockFirebase = new MockFirebase(false)
+    return offlineStore.dispatch(updateTodo(mockData.editTodo, false, mockFirebase)).then(() => {
+      const actions = offlineStore.getActions()
+      // One for toastr error and one for failure
+      expect(actions).toHaveLength(3)
+      expect(actions[1]).toEqual(mockData.toasrAction)
+      expect(actions[2]).toEqual({
+        type: 'UPDATE_TODO_OFFLINE_FAILURE',
+        error: mockData.error,
+        key: mockData.editTodo.key
+      })
+    })
+  })
+
+  it('should dispatch UPDATE_SYNC_TODO when edit sync todo in offline mode', function () {
     const mockFirebase = new MockFirebase(false)
     return offlineStore.dispatch(updateTodo(mockData.editTodo, true, mockFirebase)).then(() => {
       const actions = offlineStore.getActions()
@@ -141,7 +159,7 @@ describe('remove todo', () => {
     })
   })
 
-  it('should not dispatch removeSync and throw toastr error when remove sync todo in online mode and failure', function () {
+  it('should dispatch removeSync and throw toastr error when remove sync todo in online mode and failure', function () {
     const mockFirebase = new MockFirebase(false)
     return onlineStore.dispatch(removeTodo(mockData.key, false, mockFirebase)).then(() => {
       const actions = onlineStore.getActions()
@@ -173,6 +191,21 @@ describe('remove todo', () => {
       expect(actions[0]).toEqual({
         type: 'REMOVE_UNSYNC_TODO',
         key: mockData.key
+      })
+    })
+  })
+
+  it('should dispatch REMOVE_TODO_OFFLINE_FAILURE and throw toastr error when edit sync todo in offline mode and failure', function () {
+    const mockFirebase = new MockFirebase(false)
+    return offlineStore.dispatch(removeTodo(mockData.key, false, mockFirebase)).then(() => {
+      const actions = offlineStore.getActions()
+      // One for toastr error and one for failure
+      expect(actions).toHaveLength(3)
+      expect(actions[1]).toEqual(mockData.toasrAction)
+      expect(actions[2]).toEqual({
+        type: 'REMOVE_TODO_OFFLINE_FAILURE',
+        error: mockData.error,
+        key: mockData.editTodo.key
       })
     })
   })

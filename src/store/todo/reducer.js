@@ -1,12 +1,12 @@
 import {
-  Record,  List
+  Record,  List, OrderedSet
 } from 'immutable';
 
 
 export let todoState = new Record({
   todos: new List(),
   pendingAddTodoList: new List(),
-  pendingRemoveTodoList: new List(),
+  pendingRemoveTodoList: new OrderedSet(),
   pendingUpdateTodoList: new List(),
   filterdTodos: new List(),
   isOnline: false,
@@ -25,9 +25,7 @@ export default (previousState = new todoState(), action) => {
 
     // Same as above but add offline todo to queue
     case 'ADD_TODO_OFFLINE':
-      return previousState.merge({
-        pendingAddTodoList: previousState.pendingAddTodoList.push(action.addedTodo)
-      })
+      return previousState.set('pendingAddTodoList', previousState.pendingAddTodoList.push(action.addedTodo))
 
     // Clear the queue if add successful or failure.
     case 'ADD_TODO_OFFLINE_FAILURE':
@@ -50,7 +48,7 @@ export default (previousState = new todoState(), action) => {
         todos: previousState.todos.filter(todo=>{
           return todo.key != action.key
         }),
-        pendingRemoveTodoList: previousState.pendingRemoveTodoList.push(action.key)
+        pendingRemoveTodoList: previousState.pendingRemoveTodoList.add(action.key)
       })
     case 'REMOVE_UNSYNC_TODO':
       return previousState.set('pendingAddTodoList', previousState.pendingAddTodoList.filter(todo=>{
@@ -64,7 +62,7 @@ export default (previousState = new todoState(), action) => {
       // Check if pendingUpdateTodoList is exist (insert or update)
       let newPendingUpdateTodoList = null
       let newPendingUpdateTodoItemIndex = previousState.pendingUpdateTodoList.findIndex(todo=>todo.key===action.newVal.key)
-      if (newPendingUpdateTodoItemIndex != -1) { // Not found
+      if (newPendingUpdateTodoItemIndex === -1) { // Not found
         newPendingUpdateTodoList = previousState.pendingUpdateTodoList.push(action.newVal)
       } else {
         newPendingUpdateTodoList = previousState.pendingUpdateTodoList.set(newPendingUpdateTodoItemIndex, action.newVal)
@@ -80,11 +78,11 @@ export default (previousState = new todoState(), action) => {
 
     case 'REMOVE_TODO_OFFLINE_SUCCESS':
     case 'REMOVE_TODO_OFFLINE_FAILURE':
-      return previousState.set('pendingRemoveTodoList', previousState.pendingRemoveTodoList.filter(todo=>todo.key!=action.key))
+      return previousState.set('pendingRemoveTodoList', previousState.pendingRemoveTodoList.filter(key=>key!=action.key))
 
     case 'UPDATE_TODO_OFFLINE_SUCCESS':
     case 'UPDATE_TODO_OFFLINE_FAILURE':
-      return previousState.set('pendingUpdateTodoList', previousState.pendingUpdateTodoList.filter(todo=>todo.key!=action.updatedTodo.key))
+      return previousState.set('pendingUpdateTodoList', previousState.pendingUpdateTodoList.filter(todo=>todo.key!=action.key))
 
     // CHANGE FEED
     case 'TODO_ADDED':
