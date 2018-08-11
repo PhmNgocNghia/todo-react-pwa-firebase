@@ -29,10 +29,10 @@ import { List } from 'immutable';
 
 const EmptyTextWrapper = styled.div`
   font-weight: bold;
-  text-align: center
+  text-align: center;
 `
 
-class Todo extends React.Component {
+class Todo extends React.PureComponent {
   constructor(props) {
     super (props)
     this.state = {

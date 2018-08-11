@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { PureComponent } from 'react'
 import TodoFilterItem from './todo_filter_item'
 import propTypes from 'prop-types'
 
-const TodoFilterList  = ({currentState, onUpdateFilterState}) => (
-  <div className="d-flex justify-content-end">
+export default class TodoFilterList extends PureComponent {
+  render() {
+    const {currentState, onUpdateFilterState} = this.props
+    return (
+      <div className="d-flex justify-content-end">
     {[
       {
         name: 'SHOW_ALL',
@@ -24,11 +27,12 @@ const TodoFilterList  = ({currentState, onUpdateFilterState}) => (
       </TodoFilterItem>
     ))}
   </div>
-)
+    )
+  }
+}
+
 
 TodoFilterList.propTypes = {
   currentState: propTypes.string,
   onUpdateFilterState: propTypes.func
 }
-
-export default TodoFilterList

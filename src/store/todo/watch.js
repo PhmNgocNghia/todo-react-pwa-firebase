@@ -67,7 +67,7 @@ export let watchTodo = (currentTodoCount) => (dispatch, getState) => {
  *^ OR USE ORDERSET > IT'S ORDER AND NO DUPPLICATE
  */
 export let childAdded = (addedTodo, IignoreAddTodo = ignoreAddTodo) => (dispatch, getState) => {
-  if (ignoreAddTodo) {
+  if (IignoreAddTodo) {
     ignoreAddTodo = false
     return
   } else {

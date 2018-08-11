@@ -31,7 +31,7 @@ const TodoItemWrapper = styled.div`
   }
 `
 
-class TodoItem extends React.Component {
+class TodoItem extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -79,6 +79,26 @@ class TodoItem extends React.Component {
     })
   }
 
+  goBack = () => {
+    this.setState({ isEditMode: false })
+  }
+
+  textInputOnChange = (e) => {
+    this.setState({
+      newTodoName: e.target.value
+    })
+  }
+
+  textInputOnKeyUp = (e) => {
+    if (e.keyCode === 13) {
+      this.updateTodo()
+    } else if (e.keyCode === 27) {
+      this.setState({
+        isEditMode: false
+      })
+    }
+  }
+
   render() {
     const {
       todo,
@@ -94,20 +114,8 @@ class TodoItem extends React.Component {
       if (this.state.isEditMode)
         input(
           value=this.state.newTodoName
-          onChange=${(e) => {
-            this.setState({
-              newTodoName: e.target.value
-            })
-          }}
-          onKeyUp=${(e)=>{
-            if (e.keyCode === 13) {
-              this.updateTodo()
-            } else if (e.keyCode === 27) {
-              this.setState({
-                isEditMode: false
-              })
-            }
-          }}
+          onChange=this.textInputOnChange
+          onKeyUp=this.textInputOnKeyUp
         ).todo_item_input.form-control.pl-0
         Button(
           onClick=this.updateTodo
@@ -116,9 +124,7 @@ class TodoItem extends React.Component {
         ).btn-change
 
         Button(
-          onClick=${() => {
-            this.setState({ isEditMode: false })
-          }}
+          onClick=this.goBack
           icon="window-close"
           text="Go back"
         ).btn-goBack

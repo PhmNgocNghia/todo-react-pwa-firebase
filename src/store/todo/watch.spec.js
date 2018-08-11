@@ -17,7 +17,7 @@ describe('childAdded', () => {
   it('should not dispatch addTodoOfflineSuccess and dispatch todo added when found todo in pendingAddTodoList', function () {
     const store = mockStore({
       todo: {
-        pendingAddTodoList: new List()
+        pendingAddTodoList: []
       }
     })
 

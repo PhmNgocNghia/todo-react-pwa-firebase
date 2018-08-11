@@ -35,7 +35,7 @@ const TextInputGroupWrapper = styled.div`
   }
 `
 
-class TodoForm extends React.Component {
+class TodoForm extends React.PureComponent {
   constructor(props) {
     super (props)
     this.state = {

@@ -5,7 +5,7 @@ import {
 } from 'react-transition-group'
 import TodoItem from './todo_item'
 import PropTypes from 'prop-types'
-import {
+import Immutable, {
   List
 } from 'immutable'
 /**
@@ -16,7 +16,18 @@ import {
  * removeTodo
  * updateTodo
  */
-const TodoList = ({todos = new List(), onRemoveTodo, onUpdateTodo}) => (
+
+class TodoList extends React.Component {
+  shouldComponentUpdate (newProps) {
+    if(Immutable.is(newProps.todos, this.props.todos))
+      return false
+    else
+      return true
+  }
+
+  render () {
+    const {todos, onRemoveTodo, onUpdateTodo} = this.props
+    return (
   <TransitionGroup>
     {todos.map((todo)=>(
       <CSSTransition
@@ -32,7 +43,9 @@ const TodoList = ({todos = new List(), onRemoveTodo, onUpdateTodo}) => (
       </CSSTransition>
     ))}
   </TransitionGroup>
-)
+    )
+  }
+}
 
 TodoList.propTypes = {
   todos: PropTypes.instanceOf(List),
