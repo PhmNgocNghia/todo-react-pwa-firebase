@@ -30,7 +30,7 @@ export default (previousState = new todoState(), action) => {
     // Clear the queue if add successful or failure.
     case 'ADD_TODO_OFFLINE_FAILURE':
     case 'ADD_TODO_OFFLINE_SUCCESS':
-      return previousState.set('pendingAddTodoList', previousState.pendingAddTodoList.filter(todo=>todo.key!==action.addedTodo.key))
+      return previousState.set('pendingAddTodoList', previousState.pendingAddTodoList.filter(todo=>todo.key!==action.key))
 
     case 'CLEAR_ADD_TODO_LIST':
       return previousState.delete('pendingAddTodoList')
@@ -88,7 +88,7 @@ export default (previousState = new todoState(), action) => {
     case 'TODO_ADDED':
       return previousState.set('todos', previousState.todos.push(action.addedTodo))
     case 'TODO_REMOVED':
-      return previousState.set('todos', previousState.todos.filter((todo)=>todo.key!==action.removedTodo))
+      return previousState.set('todos', previousState.todos.filter((todo)=>todo.key!==action.key))
     case 'TODO_UPDATED':
       let index = previousState.todos.findIndex(todo=>todo.key===action.updatedTodo.key)
       return previousState.set('todos', previousState.todos.set(index, action.updatedTodo))

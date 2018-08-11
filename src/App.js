@@ -136,7 +136,7 @@ Wrapper.d-flex
           TransitionGroup
             if this.props.user === null || this.props.user.uid === ''
               CSSTransition(
-                timeout=1000
+                timeout=400
                 classNames="fadeSlide"
               )
                 Route(
@@ -145,7 +145,7 @@ Wrapper.d-flex
                 )
             else if this.props.user.uid != ''
               CSSTransition(
-                timeout=1000
+                timeout=400
                 classNames="fadeSlide"
               )
                 Route(

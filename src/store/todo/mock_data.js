@@ -16,9 +16,15 @@ export default {
   },
 
   editTodo: {
-    name: 'test',
+    name: 'tet',
     key: 'test',
     completed: false
+  },
+
+  addTodo: {
+    name: 'test',
+    key: 'test',
+    completed: true
   },
 
   error: {

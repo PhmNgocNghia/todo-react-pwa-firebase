@@ -54,14 +54,16 @@ let {
 
 
   updateTodoOnlineFailure,
-  updateTodoOfflineFailure
+  updateTodoOfflineFailure,
+  updateTodoOfflineSuccess
 } = actionCreatedByCreator
 
 export {
   addTodoOfflineSuccess,
   removeTodoOfflineSuccess,
   removeTodoOfflineFailure,
-  updateTodoOfflineFailure
+  updateTodoOfflineFailure,
+  updateTodoOfflineSuccess
 }
 
 let {

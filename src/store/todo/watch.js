@@ -19,15 +19,22 @@ import {
 } from '../../helper/transform'
 
 let todoRef = null
-let ignoreLastItemAlreadyPresentInDB = false
+let ignoreAddTodo = true
 
 // Have to load all todo before watch so we could get todo count
 export let watchTodo = (currentTodoCount) => (dispatch, getState) => {
-  let uid = stateToUid(getState())
+  const state = getState()
+  const {
+    auth: {
+      user: {
+        uid
+      }
+    }
+  } = state
   todoRef = firebaseDb.ref(`users/${uid}`)
 
   if (currentTodoCount === 0) { // Dont need to ignore since there is no item to ignore
-    ignoreLastItemAlreadyPresentInDB = true
+    ignoreAddTodo = false
   }
 
   // Check should ignore or not. If have at least 1 element in db it will ignore the last itemW
@@ -55,13 +62,14 @@ export let watchTodo = (currentTodoCount) => (dispatch, getState) => {
  * Then add 1 todo offline mode
  * Go online. It's will add successfully
  * But we need childAdded event for detect if offline todo was completed successfully
- * But ignoreLastItemAlreadyPresentInDB is false -> first element in child added will be ignore so no check
+ * But ignoreAddTodo is false -> first element in child added will be ignore so no check
  *
  *^ OR USE ORDERSET > IT'S ORDER AND NO DUPPLICATE
  */
-export let childAdded = (addedTodo) => (dispatch, getState) => {
-  if (!ignoreLastItemAlreadyPresentInDB) {
-    ignoreLastItemAlreadyPresentInDB = true
+export let childAdded = (addedTodo, IignoreAddTodo = ignoreAddTodo) => (dispatch, getState) => {
+  if (ignoreAddTodo) {
+    ignoreAddTodo = false
+    return
   } else {
     // Update UI. addTodoSuccess is logging function only. Same apply for update/remove
     dispatch(todoAdded(addedTodo))
@@ -77,7 +85,7 @@ export let childAdded = (addedTodo) => (dispatch, getState) => {
 
   let index = pendingAddTodoList.findIndex((addedTodoOffline)=>addedTodoOffline.key===addedTodo.key)
   if (index !== -1) {
-    dispatch(addTodoOfflineSuccess(addedTodo))
+    dispatch(addTodoOfflineSuccess(addedTodo.key))
   }
 }
 
@@ -89,11 +97,8 @@ export let childRemoved = (deletedTodo) => (dispatch, getState) => {
   } = getState()
 
 
-  let index = pendingRemoveTodoList.findIndex((deletedTodoOffline)=>{
-    return deletedTodoOffline===deletedTodo.key
-  })
-  if (index !== -1) {
-    dispatch(removeTodoOfflineSuccess(deletedTodo))
+  if (pendingRemoveTodoList.includes(deletedTodo.key)) {
+    dispatch(removeTodoOfflineSuccess(deletedTodo.key))
   }
 
   // Update UI. addTodoSuccess is logging function only. Same apply for update/remove
@@ -110,7 +115,7 @@ export let childUpdated = (updatedTodo) => (dispatch, getState) => {
 
   let index = pendingUpdateTodoList.findIndex((updatedTodoOffline)=>updatedTodoOffline.key===updatedTodo.key)
   if (index !== -1) {
-    dispatch(updateTodoOfflineSuccess(updatedTodo))
+    dispatch(updateTodoOfflineSuccess(updatedTodo.key))
   }
 
   // Update UI. addTodoSuccess is logging function only. Same apply for update/remove
@@ -118,7 +123,7 @@ export let childUpdated = (updatedTodo) => (dispatch, getState) => {
 }
 
 let todoAdded = makeActionCreatorFunction('TODO_ADDED', 'addedTodo')
-let todoRemoved = makeActionCreatorFunction('TODO_REMOVED', 'removedTodo')
+let todoRemoved = makeActionCreatorFunction('TODO_REMOVED', 'key')
 let todoUpdated = makeActionCreatorFunction('TODO_UPDATED', 'updatedTodo')
 
 export let unwatchTodo = () => () => {

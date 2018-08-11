@@ -36,6 +36,7 @@
 - npm build: build application
 - npm e2e: run all e2e tests
 - npm test: run unit tests
+- npm test -- --coverage: view test coverage
 
 # Mobile app - commands
 cd src/mobile then:

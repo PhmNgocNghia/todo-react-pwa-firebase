@@ -20,6 +20,22 @@ describe('add todo', () => {
       addedTodo: mockData.TodoReturn
     })).toEqual(expectedState)
   })
+
+  it('should remove todo from pendingAddTodoList when handle ADD_TODO_OFFLINE_SUCCESS', function () {
+    const modifiedDefaultTosoState =
+      defaultTosoState.merge({
+        pendingAddTodoList: new List([
+          mockData.addTodo
+        ])
+      })
+
+    expect(reducer(modifiedDefaultTosoState, {
+      type: 'ADD_TODO_OFFLINE_SUCCESS',
+      error: mockData.error,
+      key: mockData.key
+    })).toEqual(defaultTosoState)
+  })
+
 })
 
 describe('should handle UPDATE_SYNC_TODO (update sync todo in offline mode)', function () {
@@ -101,7 +117,7 @@ describe('should handle UPDATE_UNSYNC_TODO (update unsync todo in offline mode)'
 })
 
 describe('update todo', function () {
-  it('should remove todo from pendingUpdateTodo when handle UPDATE_TODO_OFFLINE_FAILURE', function () {
+  it('should update todo from pendingUpdateTodo when handle UPDATE_TODO_OFFLINE_FAILURE', function () {
     const todoAfterEdit = mockData.editTodo
     const modifiedDefaultTosoState =
       defaultTosoState.merge({
@@ -193,8 +209,100 @@ describe('remove todo', function () {
       key: mockData.key
     })).toEqual(defaultTosoState)
   })
-
 })
+
+describe('watch todo', function () {
+  it('should add todo to todos when handle TODO_ADDED', function () {
+    const expectedState =
+      defaultTosoState.merge({
+        todos: new List([mockData.addTodo]),
+      })
+
+    expect(reducer(defaultTosoState, {
+      type: 'TODO_ADDED',
+      addedTodo: mockData.addTodo
+    })).toEqual(expectedState)
+  })
+
+  it('should edit todo from todos when handle TODO_ADDED', function () {
+    const modifiedDefaultTosoState =
+      defaultTosoState.merge({
+        todos: new List([mockData.addTodo])
+      })
+
+    const expectedState =
+      defaultTosoState.merge({
+        todos: new List([mockData.editTodo]),
+      })
+
+    expect(reducer(modifiedDefaultTosoState, {
+      type: 'TODO_UPDATED',
+      updatedTodo: mockData.editTodo
+    })).toEqual(expectedState)
+  })
+
+  it('should add todo to todos when handle TODO_REMOVED', function () {
+    const modifiedDefaultTosoState =
+      defaultTosoState.merge({
+        todos: new List([mockData.addTodo])
+      })
+
+    const expectedState =
+      defaultTosoState.merge({
+        todos: new List(),
+      })
+
+    expect(reducer(modifiedDefaultTosoState, {
+      type: 'TODO_REMOVED',
+      key: mockData.key
+    })).toEqual(expectedState)
+  })
+
+  it('should remove todo from pendingRemoveTodoList when handle UPDATE_TODO_OFFLINE_SUCCESS', function () {
+    const modifiedDefaultTosoState =
+      defaultTosoState.merge({
+        pendingRemoveTodoList: new OrderedSet([
+          mockData.key
+        ])
+      })
+
+    expect(reducer(modifiedDefaultTosoState, {
+      type: 'REMOVE_TODO_OFFLINE_SUCCESS',
+      key: mockData.key
+    })).toEqual(defaultTosoState)
+  })
+
+
+  it('should remove todo from pendingUpdateTodo when handle UPDATE_TODO_OFFLINE_FAILURE', function () {
+    const todoAfterEdit = mockData.editTodo
+    const modifiedDefaultTosoState =
+      defaultTosoState.merge({
+        pendingUpdateTodoList: new List([
+          todoAfterEdit
+        ])
+      })
+
+    expect(reducer(modifiedDefaultTosoState, {
+      type: 'UPDATE_TODO_OFFLINE_SUCCESS',
+      key: mockData.key
+    })).toEqual(defaultTosoState)
+  })
+
+  it('should remove todo from pendingAddTodoList when handle ADD_TODO_OFFLINE_SUCCESS', function () {
+    const modifiedDefaultTosoState =
+      defaultTosoState.merge({
+        pendingAddTodoList: new List([
+          mockData.addTodo
+        ])
+      })
+
+    expect(reducer(modifiedDefaultTosoState, {
+      type: 'ADD_TODO_OFFLINE_SUCCESS',
+      key: mockData.key
+    })).toEqual(defaultTosoState)
+  })
+})
+
 
 
 
