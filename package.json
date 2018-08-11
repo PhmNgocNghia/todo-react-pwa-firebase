@@ -74,7 +74,8 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "e2e": "npx mocha 'e2e/**.spec.js'"
+    "e2e": "npx mocha 'e2e/**.spec.js'",
+    "deploy": "npm run build"
   },
   "jest": {
     "collectCoverageFrom": [
