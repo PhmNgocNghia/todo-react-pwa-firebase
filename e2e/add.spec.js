@@ -52,21 +52,23 @@ describe('Add todo', function() {
 
   it('should add todo to UI in offline mode and sync back to firebase when online', async () => {
     try {
-      await page.type('#todo_form_input', 'offline_todo')
-      await page.waitFor("#todo_form_btn")
-      await promisifyExec("ipconfig /release")
-      await page.click(`#todo_form_btn`)
-      await page.click(`.todo_name`)
-      let err = await page.evaluate(() => {
-        if ($('.todo_name:contains("offline_todo")').length > 0) {
-          return ''
-        } else {
-          throw 'Not add todo to UI'
-        }
-      })
-      assert.isEmpty(err, err)
-      await promisifyExec("ipconfig /renew")
-      testUtils.findTodoByName('offline_todo')
+      if (process.platform === "win32") {
+        await page.type('#todo_form_input', 'offline_todo')
+        await page.waitFor("#todo_form_btn")
+        await promisifyExec("ipconfig /release")
+        await page.click(`#todo_form_btn`)
+        await page.click(`.todo_name`)
+        let err = await page.evaluate(() => {
+          if ($('.todo_name:contains("offline_todo")').length > 0) {
+            return ''
+          } else {
+            throw 'Not add todo to UI'
+          }
+        })
+        assert.isEmpty(err, err)
+        await promisifyExec("ipconfig /renew")
+        testUtils.findTodoByName('offline_todo')
+      }
     } catch (err) {
       await promisifyExec("ipconfig /renew")
       throw err
@@ -75,20 +77,22 @@ describe('Add todo', function() {
 
   it('should add todo to UI in offline mode then sync back to firebase when refresh browser and went online', async () => {
     try {
-      await page.type('#todo_form_input', 'offline_todo_2')
-      await promisifyExec("ipconfig /release")
-      await page.click(`#todo_form_btn`)
-      let err = await page.evaluate(() => {
-        if ($('.todo_name:contains("offline_todo_2")').length > 0) {
-          return ''
-        } else {
-          throw 'Not add todo to UI'
-        }
-      })
-      assert.isEmpty(err, err)
-      await page.reload()
-      await promisifyExec("ipconfig /renew")
-      testUtils.findTodoByName('offline_todo_2')
+      if (process.platform === "win32") {
+        await page.type('#todo_form_input', 'offline_todo_2')
+        await promisifyExec("ipconfig /release")
+        await page.click(`#todo_form_btn`)
+        let err = await page.evaluate(() => {
+          if ($('.todo_name:contains("offline_todo_2")').length > 0) {
+            return ''
+          } else {
+            throw 'Not add todo to UI'
+          }
+        })
+        assert.isEmpty(err, err)
+        await page.reload()
+        await promisifyExec("ipconfig /renew")
+        testUtils.findTodoByName('offline_todo_2')
+      }
     } catch (err) {
       await promisifyExec("ipconfig /renew")
       throw err

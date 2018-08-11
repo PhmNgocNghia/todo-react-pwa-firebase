@@ -73,7 +73,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "e2e": "npx mocha 'e2e/**.spec.js'"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -122,12 +123,18 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "babel-plugin-transform-react-pug": "^6.0.0",
+    "chai": "^4.1.2",
     "enzyme": "^3.4.0",
     "enzyme-adapter-react-16": "^1.2.0",
+    "enzyme-to-json": "^3.3.4",
     "eslint-plugin-babel": "^5.1.0",
     "eslint-plugin-jest": "^21.18.0",
+    "eslint-plugin-mocha": "^5.1.0",
+    "eslint-plugin-react-pug": "^0.3.2",
     "jest-extended": "^0.8.1",
     "node-sass": "^4.9.2",
+    "puppeteer": "^1.7.0",
     "react-transition-group": "^2.4.0",
     "redux-mock-store": "^1.5.3",
     "sass-loader": "^7.1.0"

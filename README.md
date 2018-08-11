@@ -30,6 +30,9 @@
 # Setup
 - edit config.js in `src/firebase`
 
+# Notice
+- For windows user, run e2e test will disable your internet connection for a while due run command `ipconfig /release` when testing. If after test you can connect internet for somehow please type `ipconfig /renew`..
+
 # PWA - Commands
 - npm install: install all needed dependency
 - npm start: hmr develop at localhost:3000

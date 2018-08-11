@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
 const DisplayText = styled.h1`
   font-family: 'Lobster', cursive;
   letter-spacing: 2px;
@@ -17,7 +19,13 @@ export default class Display extends Component {
 
   render() {
     return pug`
-      DisplayText=this.props.children
+      DisplayText(
+        id=${this.props.id||''}
+      )=this.props.children
     `
   }
+}
+
+Display.propTypes = {
+  id: PropTypes.string
 }

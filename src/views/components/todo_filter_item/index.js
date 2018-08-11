@@ -27,14 +27,14 @@ class TodoFilterItem extends React.PureComponent {
     const {state, currentState, onClick} = this.props
     return pug`
       TodoFiltersItemWraper
-      button(
-        id=state.name
-        className="btn btn-link px-2 py-0 my-1 " + (state.name === currentState ? 'active' : '')
-        onClick=${()=>{
-          onClick(state.name)
-        }}
-      )=state.text
-      span |
+        button(
+          id=state.name
+          className="btn btn-link px-2 py-0 my-1 " + (state.name === currentState ? 'active' : '')
+          onClick=${()=>{
+            onClick(state.name)
+          }}
+        )=state.text
+        span |
     `
   }
 }
@@ -43,7 +43,8 @@ TodoFilterItem.propTypes = {
   currentState: PropTypes.string,
   onClick: PropTypes.func,
   state: PropTypes.shape({
-    name: PropTypes
+    name: PropTypes.string,
+    text: PropTypes.string
   })
 }
 

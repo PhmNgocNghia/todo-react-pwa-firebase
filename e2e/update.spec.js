@@ -59,21 +59,23 @@ describe('Update todo', function() {
 
   it('should update todo to UI and to Firebase in online mode and sync back to firebase when online', async () => {
     try {
-      await promisifyExec("ipconfig /release")
-      await page.click(`.btn-update`)
-      await page.type('.todo_item_input', '_OK')
-      await page.click('.btn-change')
-      let err = await page.evaluate(() => {
-        if ($('.todo_name:contains("Todo_will_be_updated_OK")').length > 0) {
-          return ''
-        } else {
-          throw 'Not update todo from UI'
-        }
-      })
-      assert.isEmpty(err, err)
-      await promisifyExec("ipconfig /renew")
-      await testUtils.setTimeout(2200)
-      await testUtils.todoMustExistFirebase('Todo_will_be_updated_OK', 'Not update todo from firebase')
+      if (process.platform === "win32") {
+        await promisifyExec("ipconfig /release")
+        await page.click(`.btn-update`)
+        await page.type('.todo_item_input', '_OK')
+        await page.click('.btn-change')
+        let err = await page.evaluate(() => {
+          if ($('.todo_name:contains("Todo_will_be_updated_OK")').length > 0) {
+            return ''
+          } else {
+            throw 'Not update todo from UI'
+          }
+        })
+        assert.isEmpty(err, err)
+        await promisifyExec("ipconfig /renew")
+        await testUtils.setTimeout(2200)
+        await testUtils.todoMustExistFirebase('Todo_will_be_updated_OK', 'Not update todo from firebase')
+      }
     } catch (error) {
       await promisifyExec("ipconfig /renew")
       throw error
@@ -82,23 +84,25 @@ describe('Update todo', function() {
 
   it('should update todo to UI and to Firebase in online mode  and sync back to firebase when refresh browser and online', async () => {
     try {
-      await promisifyExec("ipconfig /release")
-      await page.click(`.btn-update`)
-      await page.type('.todo_item_input', '_OK')
-      await page.click('.btn-change')
-      let err = await page.evaluate(() => {
-        if ($('.todo_name:contains("Todo_will_be_updated_OK")').length > 0) {
-          return ''
-        } else {
-          throw 'Not update todo from UI'
-        }
-      })
-      assert.isEmpty(err, err)
-      await page.reload()
-      await page.addScriptTag({url: 'https://code.jquery.com/jquery-3.2.1.min.js'})
-      await promisifyExec("ipconfig /renew")
-      await testUtils.setTimeout(2200)
-      await testUtils.todoMustExistFirebase('Todo_will_be_updated_OK', 'Not update todo from firebase')
+      if (process.platform === "win32") {
+        await promisifyExec("ipconfig /release")
+        await page.click(`.btn-update`)
+        await page.type('.todo_item_input', '_OK')
+        await page.click('.btn-change')
+        let err = await page.evaluate(() => {
+          if ($('.todo_name:contains("Todo_will_be_updated_OK")').length > 0) {
+            return ''
+          } else {
+            throw 'Not update todo from UI'
+          }
+        })
+        assert.isEmpty(err, err)
+        await page.reload()
+        await page.addScriptTag({url: 'https://code.jquery.com/jquery-3.2.1.min.js'})
+        await promisifyExec("ipconfig /renew")
+        await testUtils.setTimeout(2200)
+        await testUtils.todoMustExistFirebase('Todo_will_be_updated_OK', 'Not update todo from firebase')
+      }
     } catch (error) {
       await promisifyExec("ipconfig /renew")
       throw error

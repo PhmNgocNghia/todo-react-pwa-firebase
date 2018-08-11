@@ -71,6 +71,7 @@ div
         onClick=this.addTodo
         icon="plus-circle"
         text="add"
+        id="todo_form_btn"
       )
       `
   }

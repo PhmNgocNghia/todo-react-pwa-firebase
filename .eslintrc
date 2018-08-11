@@ -3,7 +3,8 @@
     "babel",
     "react",
     "react-pug",
-    "jest"
+    "jest",
+    "mocha"
   ],
 
   "extends": [
@@ -36,6 +37,9 @@
 
   "parser": "babel-eslint",
   "globals": {
-    "mockStore": true
+    "mockStore": true,
+    "before": true,
+    "after": true,
+    "$": true
   }
 }

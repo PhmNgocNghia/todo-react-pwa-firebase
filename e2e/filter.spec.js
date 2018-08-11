@@ -30,7 +30,7 @@ describe('Filter todo', function () {
     try {
       await testUtils.clearDummyData()
       browser = await puppeteer.launch({
-        headless: true
+        headless: false
       })
       await testUtils.getRef().push({
         name: 'Completed_Todo',
@@ -50,6 +50,13 @@ describe('Filter todo', function () {
     } catch (err) {
       throw err
     }
+  })
+
+  afterEach(async () => {
+    await page.goto('http://localhost:3000')
+    await page.addScriptTag({url: 'https://code.jquery.com/jquery-3.2.1.min.js'})
+    await page.waitFor('#todo_route_heading')
+    await page.waitFor(500)
   })
 
   after(()=>{
@@ -77,7 +84,6 @@ describe('Filter todo', function () {
   })
 
   it('should search todo by name', async function () {
-    this.retries(4)
     try {
       await page.waitFor('#todo_search_input')
       await page.type('#todo_search_input', 'Completed_Todo')

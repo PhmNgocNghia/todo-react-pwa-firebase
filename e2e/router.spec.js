@@ -17,7 +17,6 @@ describe('Router', function () {
         headless: true
       })
       page = await browser.newPage()
-      page = await browser.newPage()
       await page.goto('http://localhost:3000')
       await page.waitFor('#btn_signin_dummy')
       await page.addScriptTag({url: 'https://code.jquery.com/jquery-3.2.1.min.js'})
@@ -53,12 +52,15 @@ describe('Router', function () {
 
   it('should show spinner when offline to online', async () => {
     try {
-      await page.click('#btn_signin_dummy')
-      await page.waitFor('#todo_route_heading')
-      await testUtils.setTimeout(2000)
-      await promisifyExec('ipconfig /release')
-      await promisifyExec('ipconfig /renew')
-      await page.waitFor('#loading-text')
+      if (process.platform === "win32") {
+        await page.waitFor('#btn_signin_dummy')
+        await page.click('#btn_signin_dummy')
+        await page.waitFor('#todo_route_heading')
+        await testUtils.setTimeout(2000)
+        await promisifyExec('ipconfig /release')
+        await promisifyExec('ipconfig /renew')
+        await page.waitFor('#loading-text')
+      }
     } catch (err) {
       throw err
     }
